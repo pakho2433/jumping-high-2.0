@@ -9,13 +9,35 @@
 - 10 條《熊抱青春記》故事理解題，每題 3 個答案星星
 - 5 條生命；答錯會跌落並扣 1 條生命
 - 檢查點系統：不會回到遊戲起點，只回到最近答對的星星
-- 鍵盤操作：方向鍵移動、空白鍵跳躍
-- 滑鼠點擊並「踢開」附近神秘道具
+- 電腦操作：方向鍵移動、空白鍵跳躍、滑鼠點擊道具
+- iPhone／iPad 操作：左下虛擬搖桿、右下跳躍及踢道具按鈕
 - 三種 60 秒隨機效果：魔法翅膀、巨人、小貓
 - 答對後自動向上彈跳，鏡頭持續跟隨上升
 - 完成全部題目後飛進天空書本城堡
+- 支援加入 iPhone／iPad 主畫面及接近全螢幕模式
+- 首次成功載入後會快取主要遊戲檔案
 
-## 開啟方法
+## iPhone／iPad 遊玩方法
+
+1. 先在 GitHub Pages 發布遊戲。
+2. 使用 iPhone 或 iPad 的 **Safari** 開啟 GitHub Pages 遊戲網址。
+3. 把裝置轉為橫向。
+4. 輸入學生姓名並按「開始星空冒險」。
+5. 使用左下搖桿移動，右下「跳」按鈕跳躍。
+6. 走近紫色問號道具後，按「踢道具」取得隨機效果。
+
+### 加入主畫面
+
+在 Safari 開啟遊戲後：
+
+1. 按 Safari 的「分享」按鈕。
+2. 選擇「加入主畫面」。
+3. 按「加入」。
+4. 之後由主畫面開啟 `Jumping High`，可獲得較接近全螢幕的遊戲畫面。
+
+> iPhone Safari 一般網頁不能強制真正全螢幕；加入主畫面後的顯示效果最好。
+
+## 電腦本機開啟方法
 
 本專案是純靜態網頁，不需要安裝套件。
 
@@ -32,7 +54,18 @@ python -m http.server 8000
 
 ## GitHub Pages
 
-在 repository 的 **Settings → Pages**，把來源設定為 `Deploy from a branch`，選擇 `main` 和 `/ (root)`，儲存後即可取得公開遊戲網址。
+在 repository 的 **Settings → Pages**：
+
+1. `Source` 選擇 **Deploy from a branch**。
+2. Branch 選擇 **main**。
+3. Folder 選擇 **/ (root)**。
+4. 按 **Save**。
+
+發布後網址通常為：
+
+```text
+https://pakho2433.github.io/jumping-high-2.0/
+```
 
 ## 修改題目
 
@@ -56,3 +89,6 @@ python -m http.server 8000
 - CSS3
 - JavaScript ES Modules
 - Three.js（CDN）
+- Web App Manifest
+- Service Worker
+- Pointer Events／Touch Controls
