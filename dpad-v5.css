@@ -1,0 +1,98 @@
+.touch-joystick.dpad-controller {
+  width: 146px;
+  height: 146px;
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,.24);
+  background: rgba(21, 10, 59, .68);
+  overflow: visible;
+}
+
+.dpad-controller .joystick-arrows,
+.dpad-controller .joystick-knob {
+  display: none !important;
+}
+
+.dpad-grid {
+  position: absolute;
+  inset: 7px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.dpad-button {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid rgba(255,255,255,.34);
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(145deg, rgba(108,75,202,.94), rgba(43,22,101,.94));
+  box-shadow: 0 5px 13px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.16);
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.dpad-button span {
+  display: block;
+  font-size: 1.22rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.dpad-button small {
+  display: block;
+  margin-top: 2px;
+  color: #f0ebff;
+  font-size: .56rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.dpad-button[data-code="ArrowUp"] { grid-column: 2; grid-row: 1; }
+.dpad-button[data-code="ArrowLeft"] { grid-column: 1; grid-row: 2; }
+.dpad-button[data-code="ArrowRight"] { grid-column: 3; grid-row: 2; }
+.dpad-button[data-code="ArrowDown"] { grid-column: 2; grid-row: 3; }
+
+.dpad-centre {
+  grid-column: 2;
+  grid-row: 2;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: rgba(255,255,255,.55);
+  background: rgba(255,255,255,.07);
+  font-size: .74rem;
+  pointer-events: none;
+}
+
+.dpad-button.is-held,
+.dpad-button:active {
+  transform: scale(.9);
+  color: #271444;
+  background: linear-gradient(145deg, #ffe27a, #ff83d6);
+  box-shadow: 0 2px 7px rgba(0,0,0,.3), inset 0 1px 1px rgba(255,255,255,.45);
+}
+
+@media (orientation: landscape) and (max-height: 430px) {
+  .touch-joystick.dpad-controller {
+    width: 122px;
+    height: 122px;
+    border-radius: 25px;
+  }
+  .dpad-grid { inset: 5px; gap: 3px; }
+  .dpad-button { border-radius: 11px; }
+  .dpad-button span { font-size: 1rem; }
+  .dpad-button small { font-size: .48rem; }
+}
+
+@media (min-width: 900px) and (pointer: coarse) {
+  .touch-joystick.dpad-controller {
+    width: 164px;
+    height: 164px;
+  }
+}
