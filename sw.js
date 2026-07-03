@@ -1,10 +1,10 @@
-const CACHE_NAME = 'jumping-high-2-mobile-v2';
+const CACHE_NAME = 'jumping-high-2-mobile-v3';
 const CORE_FILES = [
   './',
   './index.html',
   './styles.css',
   './mobile.css',
-  './mobile-question-fix.css?v=2',
+  './mobile-question-fix.css?v=3',
   './game.js',
   './mobile-controls.js',
   './manifest.webmanifest',
