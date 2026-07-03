@@ -1,25 +1,25 @@
 (() => {
   'use strict';
 
+  window.mobileMovement = window.mobileMovement || { x: 0, z: 0 };
+
   const buttons = [...document.querySelectorAll('.dpad-button[data-code]')];
   if (!buttons.length) return;
 
   const activePointers = new Map();
+  const activeCodes = new Set();
 
-  const keyNames = {
-    ArrowLeft: 'ArrowLeft',
-    ArrowRight: 'ArrowRight',
-    ArrowUp: 'ArrowUp',
-    ArrowDown: 'ArrowDown',
-  };
+  function updateMovementVector() {
+    let x = 0;
+    let z = 0;
 
-  function dispatchKey(type, code) {
-    window.dispatchEvent(new KeyboardEvent(type, {
-      key: keyNames[code] || code,
-      code,
-      bubbles: true,
-      cancelable: true,
-    }));
+    if (activeCodes.has('ArrowLeft')) x -= 1;
+    if (activeCodes.has('ArrowRight')) x += 1;
+    if (activeCodes.has('ArrowUp')) z -= 1;
+    if (activeCodes.has('ArrowDown')) z += 1;
+
+    window.mobileMovement.x = x;
+    window.mobileMovement.z = z;
   }
 
   function press(button, pointerId) {
@@ -27,8 +27,9 @@
     if (!code) return;
 
     activePointers.set(pointerId, { button, code });
+    activeCodes.add(code);
     button.classList.add('is-held');
-    dispatchKey('keydown', code);
+    updateMovementVector();
     navigator.vibrate?.(8);
   }
 
@@ -36,9 +37,12 @@
     const active = activePointers.get(pointerId);
     if (!active) return;
 
-    dispatchKey('keyup', active.code);
     active.button.classList.remove('is-held');
     activePointers.delete(pointerId);
+
+    const codeStillHeld = [...activePointers.values()].some((item) => item.code === active.code);
+    if (!codeStillHeld) activeCodes.delete(active.code);
+    updateMovementVector();
   }
 
   buttons.forEach((button) => {
@@ -60,6 +64,9 @@
 
   function releaseAll() {
     [...activePointers.keys()].forEach(release);
+    activeCodes.clear();
+    window.mobileMovement.x = 0;
+    window.mobileMovement.z = 0;
   }
 
   window.addEventListener('blur', releaseAll);
