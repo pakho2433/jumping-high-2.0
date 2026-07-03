@@ -10,9 +10,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Jumping High" />
-  <title>Jumping High 2.0｜Mobile v5</title>
+  <title>Jumping High 2.0｜Mobile v6</title>
 
   <script>
+    window.mobileMovement = { x: 0, z: 0 };
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(function (registrations) {
         registrations.forEach(function (registration) { registration.unregister(); });
@@ -25,12 +26,12 @@
     }
   </script>
 
-  <link rel="icon" href="./icon.svg?v=5" type="image/svg+xml" />
+  <link rel="icon" href="./icon.svg?v=6" type="image/svg+xml" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link rel="stylesheet" href="./styles.css?v=5" />
-  <link rel="stylesheet" href="./mobile.css?v=5" />
-  <link rel="stylesheet" href="./mobile-question-fix.css?v=5" />
-  <link rel="stylesheet" href="./dpad-v5.css?v=5" />
+  <link rel="stylesheet" href="./styles.css?v=6" />
+  <link rel="stylesheet" href="./mobile.css?v=6" />
+  <link rel="stylesheet" href="./mobile-question-fix.css?v=6" />
+  <link rel="stylesheet" href="./dpad-v5.css?v=6" />
 
   <style>
     @media (orientation: landscape) and (max-height: 820px) {
@@ -93,7 +94,6 @@
       <p class="eyebrow">3D FANTASY READING ADVENTURE</p>
       <h1 id="game-title">Jumping High 2.0</h1>
       <p class="subtitle">跳上正確答案星星，一直向上，到達天空中的書本城堡！</p>
-
       <label for="player-name">冒險者姓名</label>
       <input id="player-name" maxlength="18" autocomplete="off" enterkeyhint="go" placeholder="請輸入姓名" />
       <p id="name-error" class="input-error" aria-live="polite"></p>
@@ -107,12 +107,12 @@
       </div>
 
       <div class="touch-instructions" aria-label="iPhone 和 iPad 操作方法">
-        <div><span>⬆️⬇️</span><strong>前後按鈕</strong><small>控制角色前後</small></div>
-        <div><span>⬅️➡️</span><strong>左右按鈕</strong><small>控制角色左右</small></div>
+        <div><span>⬆️⬇️</span><strong>前後按鈕</strong><small>直接控制 Z 軸</small></div>
+        <div><span>⬅️➡️</span><strong>左右按鈕</strong><small>直接控制 X 軸</small></div>
         <div><span>✨</span><strong>跳及踢道具</strong><small>使用右下按鈕</small></div>
       </div>
 
-      <p class="install-tip">📱 請使用 Safari、橫向畫面，並使用左下四方向控制器。</p>
+      <p class="install-tip">📱 Mobile v6：四個方向已改為直接控制，不再模擬鍵盤。</p>
       <p class="small-note">共 10 題・5 條生命・答錯會跌落，但只會回到最近檢查點。</p>
     </div>
   </section>
@@ -140,19 +140,11 @@
       <div class="joystick-arrows" aria-hidden="true">＋</div>
       <div id="joystick-knob" class="joystick-knob"></div>
       <div class="dpad-grid">
-        <button class="dpad-button" type="button" data-code="ArrowUp" aria-label="向前">
-          <span>↑</span><small>前</small>
-        </button>
-        <button class="dpad-button" type="button" data-code="ArrowLeft" aria-label="向左">
-          <span>←</span><small>左</small>
-        </button>
+        <button class="dpad-button" type="button" data-code="ArrowUp" aria-label="向前"><span>↑</span><small>前</small></button>
+        <button class="dpad-button" type="button" data-code="ArrowLeft" aria-label="向左"><span>←</span><small>左</small></button>
         <div class="dpad-centre">移動</div>
-        <button class="dpad-button" type="button" data-code="ArrowRight" aria-label="向右">
-          <span>→</span><small>右</small>
-        </button>
-        <button class="dpad-button" type="button" data-code="ArrowDown" aria-label="向後">
-          <span>↓</span><small>後</small>
-        </button>
+        <button class="dpad-button" type="button" data-code="ArrowRight" aria-label="向右"><span>→</span><small>右</small></button>
+        <button class="dpad-button" type="button" data-code="ArrowDown" aria-label="向後"><span>↓</span><small>後</small></button>
       </div>
     </div>
 
@@ -183,9 +175,9 @@
     </div>
   </section>
 
-  <script type="module" src="./game.js?v=5"></script>
-  <script src="./mobile-controls.js?v=5" defer></script>
-  <script src="./dpad-v5.js?v=5" defer></script>
-  <script src="./layout-fix-v4.js?v=5" defer></script>
+  <script type="module" src="./game.js?v=6"></script>
+  <script src="./mobile-controls.js?v=6" defer></script>
+  <script src="./dpad-v5.js?v=6" defer></script>
+  <script src="./layout-fix-v4.js?v=6" defer></script>
 </body>
 </html>
