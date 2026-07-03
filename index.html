@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#170b43" />
+  <meta name="description" content="Jumping High 2.0 — 在夢幻夜空跳上正確答案星星，完成《熊抱青春記》閱讀挑戰。" />
+  <title>Jumping High 2.0｜熊抱青春記閱讀挑戰</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <canvas id="game-canvas" aria-label="Jumping High 2.0 3D game"></canvas>
+
+  <section id="start-screen" class="screen active" aria-labelledby="game-title">
+    <div class="glass-card start-card">
+      <p class="eyebrow">3D FANTASY READING ADVENTURE</p>
+      <h1 id="game-title">Jumping High 2.0</h1>
+      <p class="subtitle">跳上正確答案星星，一直向上，到達天空中的書本城堡！</p>
+
+      <label for="player-name">冒險者姓名</label>
+      <input id="player-name" maxlength="18" autocomplete="off" placeholder="請輸入姓名" />
+      <p id="name-error" class="input-error" aria-live="polite"></p>
+
+      <button id="start-button" class="primary-button">開始星空冒險</button>
+
+      <div class="controls-grid" aria-label="遊戲操作方法">
+        <div><kbd>←</kbd><kbd>→</kbd><span>左右移動</span></div>
+        <div><kbd>↑</kbd><kbd>↓</kbd><span>前後移動</span></div>
+        <div><kbd>Space</kbd><span>跳躍</span></div>
+        <div><span class="mouse-icon">🖱️</span><span>點擊神秘道具並踢開</span></div>
+      </div>
+      <p class="small-note">共 10 題・5 條生命・答錯會跌落，但只會回到最近檢查點。</p>
+    </div>
+  </section>
+
+  <header id="hud" class="hud hidden">
+    <div class="hud-card identity">
+      <span class="hud-label">玩家</span>
+      <strong id="hud-name">—</strong>
+    </div>
+    <div class="hud-card">
+      <span class="hud-label">生命</span>
+      <strong id="lives" aria-label="剩餘生命">❤️❤️❤️❤️❤️</strong>
+    </div>
+    <div class="hud-card">
+      <span class="hud-label">進度</span>
+      <strong id="progress">1 / 10</strong>
+    </div>
+    <div class="hud-card">
+      <span class="hud-label">高度</span>
+      <strong><span id="height">0</span> m</strong>
+    </div>
+  </header>
+
+  <section id="question-panel" class="question-panel hidden" aria-live="polite">
+    <span id="question-number" class="question-chip">第 1 題</span>
+    <h2 id="question-text">題目載入中……</h2>
+    <p>跳上印有正確答案的星星。</p>
+  </section>
+
+  <aside id="power-panel" class="power-panel hidden">
+    <span id="power-icon">✨</span>
+    <div>
+      <small>神秘效果</small>
+      <strong id="power-text">未啟動</strong>
+    </div>
+  </aside>
+
+  <div id="crosshair" class="crosshair hidden" aria-hidden="true">✦</div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="damage-flash" aria-hidden="true"></div>
+
+  <section id="end-screen" class="screen" aria-live="assertive">
+    <div class="glass-card end-card">
+      <div id="end-icon" class="end-icon">🏰</div>
+      <h2 id="end-title">成功到達書本城堡！</h2>
+      <p id="end-message"></p>
+      <div class="result-row">
+        <span>答對題目</span><strong id="result-score">10 / 10</strong>
+      </div>
+      <button id="restart-button" class="primary-button">重新挑戰</button>
+    </div>
+  </section>
+
+  <script type="module" src="./game.js"></script>
+</body>
+</html>
