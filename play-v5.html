@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="theme-color" content="#170b43" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Jumping High" />
+  <title>Jumping High 2.0｜Mobile v5</title>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        registrations.forEach(function (registration) { registration.unregister(); });
+      }).catch(function () {});
+    }
+    if ('caches' in window) {
+      caches.keys().then(function (keys) {
+        keys.forEach(function (key) { caches.delete(key); });
+      }).catch(function () {});
+    }
+  </script>
+
+  <link rel="icon" href="./icon.svg?v=5" type="image/svg+xml" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="./styles.css?v=5" />
+  <link rel="stylesheet" href="./mobile.css?v=5" />
+  <link rel="stylesheet" href="./mobile-question-fix.css?v=5" />
+  <link rel="stylesheet" href="./dpad-v5.css?v=5" />
+
+  <style>
+    @media (orientation: landscape) and (max-height: 820px) {
+      #question-panel.question-panel {
+        top: 54px !important;
+        left: 50% !important;
+        right: auto !important;
+        display: grid !important;
+        grid-template-columns: auto minmax(0, 1fr) !important;
+        align-items: center !important;
+        gap: 8px !important;
+        width: min(520px, calc(100vw - 320px)) !important;
+        min-width: 270px !important;
+        height: 50px !important;
+        min-height: 0 !important;
+        max-height: 50px !important;
+        padding: 5px 10px !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        transform: translateX(-50%) !important;
+        text-align: left !important;
+        background: rgba(27, 14, 72, .84) !important;
+      }
+      #question-panel .question-chip {
+        margin: 0 !important;
+        padding: 4px 8px !important;
+        white-space: nowrap !important;
+        font-size: .56rem !important;
+        line-height: 1 !important;
+      }
+      #question-panel h2 {
+        display: block !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+        font-size: .92rem !important;
+        line-height: 1.1 !important;
+      }
+      #question-panel p { display: none !important; }
+    }
+    @media (orientation: landscape) and (max-height: 430px) {
+      #question-panel.question-panel {
+        top: 42px !important;
+        width: min(460px, calc(100vw - 380px)) !important;
+        height: 44px !important;
+        max-height: 44px !important;
+        padding: 4px 9px !important;
+      }
+      #question-panel h2 { font-size: .78rem !important; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="game-canvas" aria-label="Jumping High 2.0 3D game"></canvas>
+
+  <section id="start-screen" class="screen active" aria-labelledby="game-title">
+    <div class="glass-card start-card">
+      <p class="eyebrow">3D FANTASY READING ADVENTURE</p>
+      <h1 id="game-title">Jumping High 2.0</h1>
+      <p class="subtitle">跳上正確答案星星，一直向上，到達天空中的書本城堡！</p>
+
+      <label for="player-name">冒險者姓名</label>
+      <input id="player-name" maxlength="18" autocomplete="off" enterkeyhint="go" placeholder="請輸入姓名" />
+      <p id="name-error" class="input-error" aria-live="polite"></p>
+      <button id="start-button" class="primary-button">開始星空冒險</button>
+
+      <div class="controls-grid desktop-instructions" aria-label="電腦操作方法">
+        <div><kbd>←</kbd><kbd>→</kbd><span>左右移動</span></div>
+        <div><kbd>↑</kbd><kbd>↓</kbd><span>前後移動</span></div>
+        <div><kbd>Space</kbd><span>跳躍</span></div>
+        <div><span class="mouse-icon">🖱️</span><span>點擊神秘道具並踢開</span></div>
+      </div>
+
+      <div class="touch-instructions" aria-label="iPhone 和 iPad 操作方法">
+        <div><span>⬆️⬇️</span><strong>前後按鈕</strong><small>控制角色前後</small></div>
+        <div><span>⬅️➡️</span><strong>左右按鈕</strong><small>控制角色左右</small></div>
+        <div><span>✨</span><strong>跳及踢道具</strong><small>使用右下按鈕</small></div>
+      </div>
+
+      <p class="install-tip">📱 請使用 Safari、橫向畫面，並使用左下四方向控制器。</p>
+      <p class="small-note">共 10 題・5 條生命・答錯會跌落，但只會回到最近檢查點。</p>
+    </div>
+  </section>
+
+  <header id="hud" class="hud hidden">
+    <div class="hud-card identity"><span class="hud-label">玩家</span><strong id="hud-name">—</strong></div>
+    <div class="hud-card"><span class="hud-label">生命</span><strong id="lives">❤️❤️❤️❤️❤️</strong></div>
+    <div class="hud-card"><span class="hud-label">進度</span><strong id="progress">1 / 10</strong></div>
+    <div class="hud-card"><span class="hud-label">高度</span><strong><span id="height">0</span> m</strong></div>
+  </header>
+
+  <section id="question-panel" class="question-panel hidden" aria-live="polite">
+    <span id="question-number" class="question-chip">第 1 題</span>
+    <h2 id="question-text">題目載入中……</h2>
+    <p>跳上印有正確答案的星星。</p>
+  </section>
+
+  <aside id="power-panel" class="power-panel hidden">
+    <span id="power-icon">✨</span>
+    <div><small>神秘效果</small><strong id="power-text">未啟動</strong></div>
+  </aside>
+
+  <div id="mobile-controls" class="mobile-controls hidden" aria-label="觸控遊戲控制器">
+    <div id="touch-joystick" class="touch-joystick dpad-controller" aria-label="四方向控制器">
+      <div class="joystick-arrows" aria-hidden="true">＋</div>
+      <div id="joystick-knob" class="joystick-knob"></div>
+      <div class="dpad-grid">
+        <button class="dpad-button" type="button" data-code="ArrowUp" aria-label="向前">
+          <span>↑</span><small>前</small>
+        </button>
+        <button class="dpad-button" type="button" data-code="ArrowLeft" aria-label="向左">
+          <span>←</span><small>左</small>
+        </button>
+        <div class="dpad-centre">移動</div>
+        <button class="dpad-button" type="button" data-code="ArrowRight" aria-label="向右">
+          <span>→</span><small>右</small>
+        </button>
+        <button class="dpad-button" type="button" data-code="ArrowDown" aria-label="向後">
+          <span>↓</span><small>後</small>
+        </button>
+      </div>
+    </div>
+
+    <div class="touch-actions">
+      <button id="touch-kick" class="touch-action kick-action" type="button" aria-label="踢神秘道具"><span>✨</span><small>踢道具</small></button>
+      <button id="touch-jump" class="touch-action jump-action" type="button" aria-label="跳躍"><span>⬆</span><small>跳</small></button>
+    </div>
+  </div>
+
+  <button id="fullscreen-button" class="fullscreen-button hidden" type="button" aria-label="全螢幕">⛶</button>
+  <div id="mobile-message" class="mobile-message" role="status" aria-live="polite"></div>
+
+  <div id="rotate-hint" class="rotate-hint" aria-live="polite">
+    <div><span>📱↪️</span><strong>請把裝置橫向</strong><small>橫向畫面較容易看清答案星星及操控角色</small></div>
+  </div>
+
+  <div id="crosshair" class="crosshair hidden" aria-hidden="true">✦</div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="damage-flash" aria-hidden="true"></div>
+
+  <section id="end-screen" class="screen" aria-live="assertive">
+    <div class="glass-card end-card">
+      <div id="end-icon" class="end-icon">🏰</div>
+      <h2 id="end-title">成功到達書本城堡！</h2>
+      <p id="end-message"></p>
+      <div class="result-row"><span>答對題目</span><strong id="result-score">10 / 10</strong></div>
+      <button id="restart-button" class="primary-button">重新挑戰</button>
+    </div>
+  </section>
+
+  <script type="module" src="./game.js?v=5"></script>
+  <script src="./mobile-controls.js?v=5" defer></script>
+  <script src="./dpad-v5.js?v=5" defer></script>
+  <script src="./layout-fix-v4.js?v=5" defer></script>
+</body>
+</html>
