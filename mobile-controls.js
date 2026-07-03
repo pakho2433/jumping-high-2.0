@@ -1,6 +1,19 @@
 (() => {
   'use strict';
 
+  // Offline caching previously caused iPhone/iPad to keep an obsolete interface.
+  // Remove old service workers and caches so classroom devices always receive updates.
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations()
+      .then((registrations) => Promise.all(registrations.map((registration) => registration.unregister())))
+      .catch(() => {});
+  }
+  if ('caches' in window) {
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((key) => key.startsWith('jumping-high-2-')).map((key) => caches.delete(key))))
+      .catch(() => {});
+  }
+
   const touchDevice = navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches;
   const body = document.body;
   const startScreen = document.querySelector('#start-screen');
@@ -14,14 +27,6 @@
   const mobileMessage = document.querySelector('#mobile-message');
   const canvas = document.querySelector('#game-canvas');
   const progress = document.querySelector('#progress');
-
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js').catch(() => {
-        // Service worker is optional. The online game remains playable if registration fails.
-      });
-    });
-  }
 
   if (!touchDevice || !controls || !joystick || !knob || !jumpButton || !kickButton || !canvas) return;
 
