@@ -1,0 +1,20 @@
+{
+  "name": "Jumping High 2.0 — 熊抱青春記閱讀挑戰",
+  "short_name": "Jumping High",
+  "description": "在夢幻夜空跳上正確答案星星，完成十題閱讀挑戰並到達天空書本城堡。",
+  "lang": "zh-Hant",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#08051f",
+  "theme_color": "#170b43",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
